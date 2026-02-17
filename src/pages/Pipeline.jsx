@@ -1,5 +1,10 @@
-import React from 'react';
-import { MoreVertical, Plus, DollarSign, Calendar } from 'lucide-react';
+
+import { runIntakeAgent } from "../agent/intakeAgent";
+import { runFollowUpAgent } from "../agent/followUpAgent";
+import React, { useState, useContext } from "react";
+import { CRMContext } from "../context/CRMContext";
+import { MoreVertical, Plus, DollarSign, Calendar } from "lucide-react";
+
 
 const columns = [
   { id: 'intake', title: 'Intake', color: 'border-blue-500' },
@@ -8,7 +13,8 @@ const columns = [
   { id: 'settled', title: 'Settled', color: 'border-emerald-500' },
 ];
 
-const deals = [
+
+const initialDeals = [
   { id: 1, title: 'TechCorp Merger', client: 'Harvey Specter', value: '$2.5M', stage: 'negotiation', priority: 'High' },
   { id: 2, title: 'Class Action Suit', client: 'Jessica Pearson', value: '$12M', stage: 'discovery', priority: 'Medium' },
   { id: 3, title: 'Estate Planning', client: 'Louis Litt', value: '$450k', stage: 'intake', priority: 'Low' },
@@ -16,7 +22,38 @@ const deals = [
   { id: 5, title: 'Real Estate Closing', client: 'Rachel Zane', value: '$800k', stage: 'settled', priority: 'Medium' },
 ];
 
+
 export default function Pipeline() {
+  const { deals, setDeals, addTask, logEvent } = useContext(CRMContext);
+
+
+
+  const handleStageChange = async (dealId, newStage) => {
+
+    const updatedDeals = deals.map(deal =>
+      deal.id === dealId
+        ? { ...deal, stage: newStage }
+        : deal
+    );
+
+    setDeals(updatedDeals);
+
+    const updatedDeal = updatedDeals.find(d => d.id === dealId);
+
+    if (newStage === "intake") {
+
+    await runIntakeAgent(updatedDeal, addTask, logEvent);
+
+    }
+
+  if (newStage === "negotiation") {
+
+  await  runFollowUpAgent(updatedDeal, addTask, logEvent);
+
+    }
+
+  };
+
   return (
     <div className="h-full flex flex-col space-y-6">
       <div className="flex justify-between items-center">
@@ -76,6 +113,13 @@ export default function Pipeline() {
                       12d left
                     </div>
                   </div>
+                  <button
+                   onClick={() => handleStageChange(deal.id, "negotiation")}
+                   className="mt-3 text-xs text-primary underline"
+                    >
+                    Trigger Follow-Up Agent
+                   </button>
+
                 </div>
               ))}
             </div>
