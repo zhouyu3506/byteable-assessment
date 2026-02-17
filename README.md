@@ -1,114 +1,199 @@
-# Byteable AI Challenge: [Industry Name] CRM
+# Legal CRM Dashboard with AI Agent and Google OAuth
 
-**Applicant Name:** [Your Name]
-**Role Applied For:** [e.g., Certified Engineer / Internship / Paid Role]
+A cloud-ready Legal CRM Dashboard built with React, featuring:
 
-## 📹 Demo Video
-**Loom Link:** [Insert your Loom video link here]
-*(Please ensure the video covers the Byteable Web -> VS Code workflow, feature demo, and code walkthrough)*
+* Google OAuth authentication
+* AI-powered CRM analytics agent
+* Case pipeline management
+* Event logging system
+* Modular agent architecture
 
----
-
-## 🚀 Project Overview
-This project is a Base CRM for a **[Law Firm / Car Dealership / Ad Agency]** built using the Byteable AI workflow.
-
-### Core Features Implemented
-- [ ] **CRM Core:** Contacts, Deals/Pipeline, Notes/Tasks
-- [ ] **Dashboard:** High-level analytics widgets
-- [ ] **Behavior Tracking:** Event logging (e.g., login, deal update)
-- [ ] **Agentic Workflow:** [Name of your agent, e.g., "Lead Follow-up Bot"]
-- [ ] **Public API:** [Name of API, e.g., Google OAuth]
+This project demonstrates full-stack architecture, agent integration, and public API authentication.
 
 ---
 
-## 🛠 Tech Stack
-- **Frontend:** [e.g., Next.js, React, Tailwind]
-- **Backend:** [e.g., Node.js, Python/FastAPI]
-- **Database:** [e.g., SQLite, Postgres, Supabase]
-- **Auth:** [e.g., NextAuth, Google OAuth, Custom]
+# Features
+
+## Authentication (Public API Integration)
+
+* Google OAuth login via @react-oauth/google
+* Secure JWT decoding
+* User session persistence via localStorage
+
+Displays:
+
+* Name
+* Email
+* Profile picture
 
 ---
 
-## 🤖 The Agentic Workflow
-**Agent Name:** [e.g., Stale Deal Activator]
-**Description:**
-[Briefly explain what your agent does. Example: "The agent scans for deals that haven't been updated in 7 days, generates a suggested email draft using a template, and creates a task for the user to review it."]
+## CRM Dashboard
 
-**How to test it:**
-1. Go to [Page/Route]
-2. Click [Button Name]
-3. Observe [Expected Result]
+Tracks:
 
----
+* Total Cases
+* Contacts
+* Tasks
+* Agent Events
 
-## 🔌 Byteable Web to VS Code Workflow
-*Documentation of the required platform workflow.*
-
-1. **Prototype:** Started in Byteable.ai Web.
-2. **Migration:** Connected GitHub via PAT and cloned to local VS Code.
-3. **Extension:** Used Byteable AI VS Code Extension for [Specific feature or general coding].
-
-**LLM/API Key Notes:**
-*[If the extension requested an OpenRouter key or other API keys, describe what happened here and how you resolved it.]*
+Includes real-time event log.
 
 ---
 
-## ⚙️ Setup & Installation
+## Case Pipeline Management
 
-### 1. Clone the repo
-```bash
-git clone [your-repo-link]
-cd [folder-name]
+Supports case stages such as:
+
+* Intake
+* Estate Planning
+* Settlement
+
+Modular pipeline architecture allows future automation.
+
+---
+
+## AI Agent Integration
+
+Custom agents located in:
+
+```
+src/agent/
 ```
 
-### 2. Install Dependencies
-```bash
+Example agents:
+
+* intakeAgent.js
+* followUpAgent.js
+
+Agents generate structured CRM events via:
+
+```
+src/services/eventLog.js
+```
+
+---
+
+## Architecture
+
+```
+React Frontend
+  ├── Dashboard UI
+  ├── Pipeline UI
+  ├── Google OAuth Login
+  └── CRM Context State
+
+Agent Layer
+  ├── Intake Agent
+  ├── Follow-Up Agent
+
+Service Layer
+  ├── Event Log Service
+  └── OpenAI Service (extensible)
+
+Authentication
+  └── Google OAuth (Public API Integration)
+```
+
+---
+
+## Tech Stack
+
+Frontend
+
+* React
+* Vite
+* Tailwind CSS
+
+Authentication
+
+* Google OAuth
+
+AI / Agent Architecture
+
+* Modular agent design
+* Event-driven logging
+
+Deployment Ready
+
+* Environment variable support
+* Clean repository structure
+
+---
+
+## Public API Integration (Requirement D)
+
+This project integrates Google OAuth using:
+
+```
+@react-oauth/google
+```
+
+Authentication method used:
+
+OAuth 2.0 via Google Identity Services
+
+User data retrieved:
+
+* Name
+* Email
+* Profile picture
+
+---
+
+## Setup Instructions
+
+Clone repo:
+
+```
+git clone https://github.com/zhouyu3506/byteable-assessment.git
+cd byteable-assessment
+```
+
+Install:
+
+```
 npm install
-# or
-pip install -r requirements.txt
 ```
 
-### 3. Environment Variables
-Create a `.env` file in the root directory and add the following:
+Create `.env`
 
-```env
-# Database
-DATABASE_URL="file:./dev.db"
-
-# Authentication (If applicable)
-GOOGLE_CLIENT_ID="..."
-GOOGLE_CLIENT_SECRET="..."
-NEXTAUTH_SECRET="..."
-
-# API Keys (If applicable)
-OPENROUTER_API_KEY="..."
-EXTERNAL_API_KEY="..."
+```
+VITE_GOOGLE_CLIENT_ID=your_client_id_here
 ```
 
-### 4. Database Setup
-```bash
-# Run migrations or setup script
-npx prisma db push
-# or
-python manage.py migrate
-```
+Run:
 
-### 5. Run the App
-```bash
+```
 npm run dev
-# Open http://localhost:3000
 ```
 
 ---
 
-## ⚖️ Trade-offs & Future Improvements
-Due to the 4-hour timebox, I made the following decisions:
+## Security
 
-**Trade-off:** [e.g., Used basic styling for the login page to focus on the Agent logic.]
-**Trade-off:** [e.g., Hardcoded the specific email template for the agent instead of making it dynamic.]
+Environment variables are excluded via:
 
-**What I'd do next:**
-- [Improvement 1]
-- [Improvement 2]
+```
+.env
+.gitignore
+```
+
+No secrets are committed.
 
 ---
+
+## Future Improvements
+
+* AI automated case classification
+* AI follow-up suggestions
+* Backend persistence layer
+* Multi-user support
+
+---
+
+## Author
+
+Yu Zhou
+Northeastern University
+AI / Software Engineering Candidate
