@@ -1,3 +1,6 @@
+<img width="1439" height="860" alt="image" src="https://github.com/user-attachments/assets/1b7f4b59-8e00-4bdf-9b26-c8249cfdafda" />
+
+
 # Legal CRM Dashboard with AI Agent and Google OAuth
 
 A cloud-ready Legal CRM Dashboard built with React, featuring AI-powered workflow automation using OpenAI and secure authentication via Google OAuth.
