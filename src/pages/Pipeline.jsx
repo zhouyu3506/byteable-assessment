@@ -54,6 +54,18 @@ export default function Pipeline() {
 
   };
 
+    const handleNewCase = async() => {
+      const newCase = {
+        id : Date.now(),
+        title: "Estate Planning",
+        stage: "Intake",
+      };
+      //add case
+      setDeals([...deals, newCase]);
+      //run AI agent
+      await runIntakeAgent(newCase, addTask, logEvent);
+    };  
+
   return (
     <div className="h-full flex flex-col space-y-6">
       <div className="flex justify-between items-center">
@@ -65,9 +77,13 @@ export default function Pipeline() {
           <button className="px-4 py-2 border border-border rounded-xl hover:bg-white/5 transition-colors">
             View Analytics
           </button>
-          <button className="bg-primary text-white px-6 py-2 rounded-xl font-semibold flex items-center gap-2">
-            <Plus size={18} /> New Case
-          </button>
+          <button
+          onClick={handleNewCase}
+          className="bg-primary text-white px-6 py-2 rounded-xl font-semibold flex items-center gap-2"
+          >
+          <Plus size={18} /> New Case
+</button>
+
         </div>
       </div>
 
@@ -119,6 +135,10 @@ export default function Pipeline() {
                     >
                     Trigger Follow-Up Agent
                    </button>
+                   <button onClick={handleNewCase}>
+                    + New Case
+                   </button>
+
 
                 </div>
               ))}

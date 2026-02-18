@@ -1,10 +1,13 @@
 // src/agent/intakeAgent.js
+import { generateFollowUpTasks } from "../services/openaiService";
 
-export function runIntakeAgent(caseData, addTask, logEvent) {
+export async function runIntakeAgent(caseData, addTask, logEvent) {
 
   if (!caseData) return;
 
-  // Standard legal intake checklist for new cases
+  console.log("Running Intake Agent for:", caseData.title);
+
+   // STEP 1 — Standard checklist (baseline reliability)
   const checklist = [
 
     "Collect client identification documents",
@@ -21,27 +24,46 @@ export function runIntakeAgent(caseData, addTask, logEvent) {
 
   checklist.forEach((item, index) => {
 
-    const task = {
-
+    addTask({
       id: Date.now() + index,
-
       title: item,
-
       dealId: caseData.id,
-
       status: "Pending",
-
       createdBy: "Intake Agent",
-
       createdAt: new Date().toISOString(),
-
-      priority: "High"
-
-    };
-
-    addTask(task);
+      priority: "High",
+      source: "SYSTEM"
+    });
 
   });
+  
+  // STEP 2 — OpenAI-generated intelligent tasks
+  try {
+
+    const aiTasksText = await generateFollowUpTasks(caseData.title);
+
+    const aiTasks = aiTasksText.split("\n").filter(Boolean);
+
+    aiTasks.forEach((taskText, index) => {
+
+      addTask({
+        id: Date.now() + 1000 + index,
+        title: taskText,
+        dealId: caseData.id,
+        status: "Pending",
+        createdBy: "AI Agent",
+        createdAt: new Date().toISOString(),
+        priority: "Medium",
+        source: "OPENAI"
+      });
+
+    });
+
+  } catch (err) {
+
+    console.error("OpenAI task generation failed:", err);
+
+  }
 
   // Log agent activity for dashboard analytics
   if (logEvent) {
@@ -54,7 +76,7 @@ export function runIntakeAgent(caseData, addTask, logEvent) {
 
       caseTitle: caseData.title,
 
-      message: `Intake Agent generated checklist for case "${caseData.title}"`,
+      message: `AI Intake Agent generated tasks for "${caseData.title}"`,
 
       createdAt: new Date().toISOString()
 
