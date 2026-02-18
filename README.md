@@ -1,199 +1,194 @@
 # Legal CRM Dashboard with AI Agent and Google OAuth
 
-A cloud-ready Legal CRM Dashboard built with React, featuring:
+A cloud-ready Legal CRM Dashboard built with React, featuring AI-powered workflow automation using OpenAI and secure authentication via Google OAuth.
 
-* Google OAuth authentication
-* AI-powered CRM analytics agent
-* Case pipeline management
-* Event logging system
-* Modular agent architecture
-
-This project demonstrates full-stack architecture, agent integration, and public API authentication.
+This project demonstrates how AI agents can automate CRM operations such as case intake, follow-ups, and task generation.
 
 ---
 
-# Features
+## Live Features
 
-## Authentication (Public API Integration)
+### Authentication (Public API Integration)
 
-* Google OAuth login via @react-oauth/google
+* Google OAuth login via `@react-oauth/google`
 * Secure JWT decoding
-* User session persistence via localStorage
+* User session persistence using localStorage
+* Displays authenticated user profile
+
+---
+
+### AI Agent Automation (OpenAI Integration)
+
+This project integrates OpenAI to automatically generate intelligent follow-up tasks.
+
+Agents implemented:
+
+#### Intake Agent
+
+Triggered when a new case is created.
+
+Uses OpenAI to generate:
+
+* Legal intake checklist
+* Required documentation tasks
+* Consultation preparation tasks
+
+#### Follow-Up Agent
+
+Triggered when a case moves into negotiation stage.
+
+Uses OpenAI to generate:
+
+* Client follow-ups
+* Document requests
+* Negotiation preparation tasks
+
+---
+
+### CRM Pipeline Management
+
+Features:
+
+* Case pipeline with multiple stages:
+
+  * Intake
+  * Discovery
+  * Negotiation
+  * Settled
+
+* Create new cases
+
+* Track case progress
+
+* Automatically trigger AI agents
+
+* Task management system
+
+---
+
+### Dashboard Analytics
 
 Displays:
 
-* Name
-* Email
-* Profile picture
+* Total cases
+* Total tasks
+* Agent activity log
+* AI-generated task events
 
----
-
-## CRM Dashboard
-
-Tracks:
-
-* Total Cases
-* Contacts
-* Tasks
-* Agent Events
-
-Includes real-time event log.
-
----
-
-## Case Pipeline Management
-
-Supports case stages such as:
-
-* Intake
-* Estate Planning
-* Settlement
-
-Modular pipeline architecture allows future automation.
-
----
-
-## AI Agent Integration
-
-Custom agents located in:
+Example:
 
 ```
-src/agent/
-```
-
-Example agents:
-
-* intakeAgent.js
-* followUpAgent.js
-
-Agents generate structured CRM events via:
-
-```
-src/services/eventLog.js
+AI Intake Agent generated tasks for "Estate Planning"
 ```
 
 ---
 
-## Architecture
+## Architecture Overview
 
-```
-React Frontend
-  ├── Dashboard UI
-  ├── Pipeline UI
-  ├── Google OAuth Login
-  └── CRM Context State
-
-Agent Layer
-  ├── Intake Agent
-  ├── Follow-Up Agent
-
-Service Layer
-  ├── Event Log Service
-  └── OpenAI Service (extensible)
-
-Authentication
-  └── Google OAuth (Public API Integration)
-```
-
----
-
-## Tech Stack
-
-Frontend
+Frontend:
 
 * React
-* Vite
-* Tailwind CSS
+* Context API (global CRM state)
+* TailwindCSS
 
-Authentication
+AI Integration:
 
-* Google OAuth
+* OpenAI API
+* Agent-based architecture
+* Modular agent services
 
-AI / Agent Architecture
+Authentication:
 
-* Modular agent design
-* Event-driven logging
+* Google OAuth 2.0
 
-Deployment Ready
+State Management:
 
-* Environment variable support
-* Clean repository structure
-
----
-
-## Public API Integration (Requirement D)
-
-This project integrates Google OAuth using:
-
-```
-@react-oauth/google
-```
-
-Authentication method used:
-
-OAuth 2.0 via Google Identity Services
-
-User data retrieved:
-
-* Name
-* Email
-* Profile picture
+* CRMContext (Deals, Tasks, Events)
 
 ---
 
-## Setup Instructions
-
-Clone repo:
+## Project Structure
 
 ```
-git clone https://github.com/zhouyu3506/byteable-assessment.git
-cd byteable-assessment
+src/
+
+agent/
+  intakeAgent.js
+  followUpAgent.js
+
+services/
+  openaiService.js
+
+context/
+  CRMContext.jsx
+
+pages/
+  Dashboard.jsx
+  Pipeline.jsx
+
+App.jsx
 ```
 
-Install:
+---
+
+## Public API Integrations Used
+
+Google OAuth
+Used for authentication.
+
+OpenAI API
+Used to generate intelligent legal workflow tasks.
+
+Authentication method:
+
+* Google OAuth 2.0
+* OpenAI API Key via environment variable
+
+---
+
+## Environment Setup
+
+Create `.env` file:
 
 ```
-npm install
-```
-
-Create `.env`
-
-```
-VITE_GOOGLE_CLIENT_ID=your_client_id_here
+VITE_OPENAI_API_KEY=your_key_here
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
 ```
 
 Run:
 
 ```
+npm install
 npm run dev
 ```
 
 ---
 
-## Security
+## Example Workflow
 
-Environment variables are excluded via:
-
-```
-.env
-.gitignore
-```
-
-No secrets are committed.
+1. User logs in via Google OAuth
+2. User clicks "New Case"
+3. Intake Agent triggers automatically
+4. OpenAI generates legal tasks
+5. Tasks appear in dashboard
+6. Event log records AI activity
 
 ---
 
-## Future Improvements
+## Why This Project Matters
 
-* AI automated case classification
-* AI follow-up suggestions
-* Backend persistence layer
-* Multi-user support
+This project demonstrates:
+
+* AI Agent integration into real business workflow
+* Public API integration (OAuth + OpenAI)
+* Full-stack architecture design
+* AI-driven automation system design
+
+This architecture can scale into production CRM, SaaS, or enterprise legal platforms.
 
 ---
 
 ## Author
 
 Yu Zhou
-Northeastern University
-AI / Software Engineering Candidate
+AI / ML / Software Engineer
